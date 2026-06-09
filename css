@@ -1,0 +1,20 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#04070f;
+  --bg2:#080d1a;
+  --surface:#0d1526;
+  --surface2:#111d33;
+  --border:#1a2d4a;
+  --border2:#243d64;
+  --cyan:#00e5c8;
+  --cyan2:#00bfa8;
+  --blue:#4f8ef7;
+  --purple:#9b6dff;
+  --amber:#f5a623;
+  --text:#dde8f5;
+  --muted:#5a7499;
+  --muted2:#3d5474;
+}
+
+/* Continue with ALL remaining CSS */

@@ -1,0 +1,43 @@
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function downloadResume() {
+  const btn = event.currentTarget;
+  const orig = btn.innerHTML;
+
+  btn.innerHTML = btn.innerHTML.replace(/Download.*|Resume/, 'Generating…');
+  btn.disabled = true;
+
+  setTimeout(() => {
+
+    try {
+
+      const { jsPDF } = window.jspdf;
+
+      // KEEP THE ENTIRE PDF GENERATION CODE
+      // FROM YOUR CURRENT FILE HERE
+
+    } catch (err) {
+
+      showToast('Download failed. Try again.');
+      console.error(err);
+
+    }
+
+    btn.innerHTML = orig;
+    btn.disabled = false;
+
+  }, 100);
+}
