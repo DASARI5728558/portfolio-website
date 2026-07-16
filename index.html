@@ -1,1035 +1,720 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Ram Prasad Dasari — DevOps Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#04070f;
-  --bg2:#080d1a;
-  --surface:#0d1526;
-  --surface2:#111d33;
-  --border:#1a2d4a;
-  --border2:#243d64;
-  --cyan:#00e5c8;
-  --cyan2:#00bfa8;
-  --blue:#4f8ef7;
-  --purple:#9b6dff;
-  --amber:#f5a623;
-  --text:#dde8f5;
-  --muted:#5a7499;
-  --muted2:#3d5474;
-}
-html{scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Outfit',sans-serif;
-  line-height:1.6;
-  overflow-x:hidden;
-}
-
-/* BACKGROUND GRID */
-body::before{
-  content:'';
-  position:fixed;inset:0;
-  background-image:
-    linear-gradient(rgba(0,229,200,0.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,229,200,0.03) 1px,transparent 1px);
-  background-size:60px 60px;
-  pointer-events:none;
-  z-index:0;
-}
-
-/* GLOW ORBS */
-.orb{
-  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
-  filter:blur(120px);
-}
-.orb1{width:600px;height:600px;top:-200px;right:-100px;background:rgba(79,142,247,0.07)}
-.orb2{width:500px;height:500px;bottom:0;left:-200px;background:rgba(0,229,200,0.06)}
-.orb3{width:300px;height:300px;top:50%;left:40%;background:rgba(155,109,255,0.05)}
-
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:0 4rem;
-  height:64px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(4,7,15,0.7);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-}
-.logo{
-  font-family:'JetBrains Mono',monospace;
-  font-size:1rem;font-weight:700;
-  color:var(--cyan);
-  letter-spacing:-0.5px;
-}
-.logo em{color:var(--text);font-style:normal}
-.navlinks{display:flex;gap:2.5rem}
-.navlinks a{
-  color:var(--muted);text-decoration:none;
-  font-size:0.85rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;
-  transition:color .2s;
-  position:relative;
-}
-.navlinks a::after{
-  content:'';position:absolute;bottom:-4px;left:0;right:0;
-  height:1px;background:var(--cyan);
-  transform:scaleX(0);transition:transform .2s;
-}
-.navlinks a:hover{color:var(--cyan)}
-.navlinks a:hover::after{transform:scaleX(1)}
-.nav-cta{
-  padding:8px 20px;
-  background:linear-gradient(135deg,var(--cyan),var(--blue));
-  color:#000;font-weight:700;font-size:0.8rem;letter-spacing:0.05em;text-transform:uppercase;
-  text-decoration:none;border-radius:4px;
-  transition:opacity .2s,transform .2s;
-}
-.nav-cta:hover{opacity:.9;transform:translateY(-1px)}
-/* DOWNLOAD BTN */
-.btn-dl{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:0.8rem 2rem;
-  background:transparent;
-  border:1px solid rgba(0,229,200,0.4);
-  color:var(--cyan);font-weight:700;font-size:0.9rem;
-  border-radius:6px;cursor:pointer;
-  font-family:'Outfit',sans-serif;
-  transition:background .2s,transform .2s,box-shadow .2s;
-  text-decoration:none;
-}
-.btn-dl:hover{
-  background:rgba(0,229,200,0.08);
-  transform:translateY(-3px);
-  box-shadow:0 8px 24px rgba(0,229,200,0.15);
-}
-.btn-dl svg{width:16px;height:16px;stroke:var(--cyan);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-.nav-dl{
-  display:flex;align-items:center;gap:7px;
-  padding:7px 16px;
-  background:transparent;border:1px solid rgba(0,229,200,0.3);
-  color:var(--cyan);font-weight:600;font-size:0.78rem;letter-spacing:0.04em;
-  border-radius:4px;cursor:pointer;
-  font-family:'Outfit',sans-serif;
-  transition:background .2s,transform .2s;text-transform:uppercase;
-}
-.nav-dl:hover{background:rgba(0,229,200,0.08);transform:translateY(-1px)}
-.nav-dl svg{width:13px;height:13px;stroke:var(--cyan);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-/* TOAST */
-#toast{
-  position:fixed;bottom:2rem;right:2rem;z-index:999;
-  background:var(--surface2);border:1px solid rgba(0,229,200,0.3);
-  color:var(--text);padding:1rem 1.5rem;border-radius:8px;
-  font-size:0.88rem;font-weight:500;
-  display:flex;align-items:center;gap:10px;
-  transform:translateY(80px);opacity:0;
-  transition:transform .35s ease,opacity .35s ease;
-  pointer-events:none;
-}
-#toast.show{transform:translateY(0);opacity:1}
-#toast .t-ic{color:var(--cyan);font-size:1.1rem}
-/* RESUME SECTION */
-.resume-section{
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:2.5rem;
-  display:flex;align-items:center;justify-content:space-between;gap:2rem;
-  flex-wrap:wrap;
-  margin-top:2rem;
-  position:relative;overflow:hidden;
-}
-.resume-section::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 0% 50%,rgba(0,229,200,0.04) 0%,transparent 60%);
-  pointer-events:none;
-}
-.resume-info{display:flex;align-items:center;gap:1.25rem}
-.resume-icon{
-  width:52px;height:52px;flex-shrink:0;border-radius:10px;
-  background:rgba(0,229,200,0.08);border:1px solid rgba(0,229,200,0.2);
-  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
-}
-.resume-title{font-size:1.05rem;font-weight:700;margin-bottom:3px}
-.resume-meta{font-size:0.8rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
-
-/* ───── HERO ───── */
-.hero{
-  min-height:100vh;
-  display:flex;align-items:center;
-  padding:7rem 4rem 4rem;
-  position:relative;z-index:1;
-}
-.hero-inner{
-  max-width:1200px;width:100%;margin:0 auto;
-  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
-}
-.chip{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(0,229,200,0.08);
-  border:1px solid rgba(0,229,200,0.2);
-  color:var(--cyan);
-  font-family:'JetBrains Mono',monospace;
-  font-size:0.72rem;padding:6px 14px;border-radius:100px;
-  margin-bottom:1.75rem;
-}
-.chip-dot{
-  width:7px;height:7px;background:var(--cyan);border-radius:50%;
-  animation:pulse 2s ease-in-out infinite;
-}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,229,200,.4)}50%{box-shadow:0 0 0 6px rgba(0,229,200,0)}}
-h1.hero-name{
-  font-size:clamp(2.8rem,4.5vw,4.2rem);
-  font-weight:900;line-height:1.05;
-  margin-bottom:0.25rem;
-  letter-spacing:-2px;
-}
-h1.hero-name .grad{
-  background:linear-gradient(135deg,var(--cyan) 0%,var(--blue) 50%,var(--purple) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero-role{
-  font-family:'JetBrains Mono',monospace;
-  font-size:0.95rem;color:var(--muted);
-  margin-bottom:1.5rem;
-  font-weight:400;
-}
-.hero-role span{color:var(--cyan)}
-.hero-desc{
-  font-size:1.05rem;color:#7a9fc4;
-  max-width:460px;line-height:1.75;
-  margin-bottom:2.5rem;font-weight:400;
-}
-.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
-.btn-g{
-  padding:0.8rem 2rem;
-  background:linear-gradient(135deg,var(--cyan),var(--blue));
-  color:#000;font-weight:700;font-size:0.9rem;
-  text-decoration:none;border-radius:6px;
-  transition:transform .2s,box-shadow .2s;
-}
-.btn-g:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,229,200,0.25)}
-.btn-o{
-  padding:0.8rem 2rem;
-  background:transparent;
-  border:1px solid var(--border2);
-  color:var(--text);font-weight:600;font-size:0.9rem;
-  text-decoration:none;border-radius:6px;
-  transition:border-color .2s,color .2s,transform .2s;
-}
-.btn-o:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-3px)}
-
-/* STATS ROW */
-.stats{display:flex;gap:2.5rem}
-.stat-val{
-  font-size:1.6rem;font-weight:900;
-  background:linear-gradient(135deg,var(--cyan),var(--blue));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.stat-label{font-size:0.8rem;color:var(--muted);font-weight:500;margin-top:2px}
-
-/* TERMINAL */
-.terminal-wrap{position:relative}
-.terminal-wrap::before{
-  content:'';position:absolute;inset:-1px;border-radius:14px;
-  background:linear-gradient(135deg,rgba(0,229,200,0.3),rgba(79,142,247,0.2),rgba(155,109,255,0.15));
-  z-index:-1;
-}
-.terminal{
-  background:#070c18;border-radius:12px;overflow:hidden;
-  box-shadow:0 32px 80px rgba(0,0,0,0.6);
-}
-.tbar{
-  background:#0c1422;padding:14px 18px;
-  display:flex;align-items:center;gap:8px;
-  border-bottom:1px solid var(--border);
-}
-.tdot{width:12px;height:12px;border-radius:50%}
-.tdot:nth-child(1){background:#ff5f57}
-.tdot:nth-child(2){background:#febc2e}
-.tdot:nth-child(3){background:#28c840}
-.ttitle{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted)}
-.tbody{padding:1.5rem 1.75rem;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.9}
-.tp{color:var(--cyan)}
-.tc{color:var(--text)}
-.tcom{color:var(--muted2)}
-.tv{color:var(--amber)}
-.tb{color:var(--blue)}
-.tg{color:#4ade80}
-.tp2{color:var(--purple)}
-.cursor{animation:blink .9s step-end infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
-/* ───── SECTIONS ───── */
-.section{max-width:1200px;margin:0 auto;padding:6rem 4rem;position:relative;z-index:1}
-.s-eyebrow{
-  font-family:'JetBrains Mono',monospace;font-size:0.72rem;
-  color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;
-  margin-bottom:.6rem;
-}
-.s-title{font-size:2.2rem;font-weight:800;margin-bottom:1rem;letter-spacing:-1px}
-.s-sub{font-size:1rem;color:var(--muted);max-width:560px;font-weight:400;margin-bottom:3.5rem;line-height:1.7}
-
-/* SKILLS */
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem}
-.sk-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:1.75rem;transition:border-color .25s,transform .25s;
-}
-.sk-card:hover{border-color:var(--border2);transform:translateY(-4px)}
-.sk-icon{font-size:1.6rem;margin-bottom:1rem}
-.sk-head{
-  font-size:0.75rem;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.1em;
-  font-family:'JetBrains Mono',monospace;
-  margin-bottom:1rem;
-}
-.pills{display:flex;flex-wrap:wrap;gap:7px}
-.pill{
-  padding:4px 11px;font-size:0.75rem;border-radius:4px;
-  font-family:'JetBrains Mono',monospace;transition:transform .15s;
-  cursor:default;
-}
-.pill:hover{transform:scale(1.05)}
-.pc{background:rgba(0,229,200,0.07);border:1px solid rgba(0,229,200,0.2);color:#5efcd8}
-.pb{background:rgba(79,142,247,0.07);border:1px solid rgba(79,142,247,0.2);color:#93b8fb}
-.pp{background:rgba(155,109,255,0.07);border:1px solid rgba(155,109,255,0.2);color:#c4a8ff}
-.pa{background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.2);color:#fbbf24}
-.pg{background:rgba(74,222,128,0.07);border:1px solid rgba(74,222,128,0.2);color:#86efac}
-
-/* PROJECTS */
-.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem}
-.proj-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:2rem;display:flex;flex-direction:column;
-  position:relative;overflow:hidden;
-  transition:border-color .25s,transform .25s;
-}
-.proj-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));
-  opacity:0;transition:opacity .25s;
-}
-.proj-card:hover::before{opacity:1}
-.proj-card:hover{border-color:rgba(0,229,200,0.25);transform:translateY(-6px)}
-.proj-num{
-  font-family:'JetBrains Mono',monospace;font-size:0.68rem;
-  color:var(--cyan);margin-bottom:.75rem;letter-spacing:.1em;
-}
-.proj-name{font-size:1.05rem;font-weight:700;line-height:1.35;margin-bottom:.75rem}
-.proj-desc{font-size:0.88rem;color:#7a9fc4;line-height:1.65;flex:1;margin-bottom:1.5rem;font-weight:400}
-.proj-tech{display:flex;flex-wrap:wrap;gap:6px}
-.pt{
-  padding:3px 10px;font-size:0.7rem;
-  font-family:'JetBrains Mono',monospace;
-  border-radius:3px;
-}
-
-/* EXPERIENCE */
-.exp-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:2.5rem;
-  display:grid;grid-template-columns:1fr auto;gap:1rem;
-  transition:border-color .25s;
-}
-.exp-card:hover{border-color:var(--border2)}
-.exp-role{font-size:1.15rem;font-weight:700;margin-bottom:4px}
-.exp-co{color:var(--cyan);font-size:0.9rem;font-weight:600;margin-bottom:1.25rem}
-.exp-duration{
-  font-family:'JetBrains Mono',monospace;font-size:0.72rem;
-  color:var(--muted);text-align:right;white-space:nowrap;
-}
-.exp-list{list-style:none}
-.exp-list li{
-  font-size:0.9rem;color:#7a9fc4;
-  padding:5px 0 5px 1.4rem;position:relative;line-height:1.55;font-weight:400;
-}
-.exp-list li::before{
-  content:'▸';position:absolute;left:0;color:var(--cyan);font-size:.75rem;top:7px;
-}
-
-/* CERTS */
-.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
-.cert-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:1.5rem;
-  display:flex;gap:1rem;align-items:flex-start;
-  transition:border-color .25s,transform .25s;
-}
-.cert-card:hover{border-color:rgba(245,166,35,0.4);transform:translateY(-4px)}
-.cert-ic{
-  width:44px;height:44px;flex-shrink:0;border-radius:8px;
-  background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.25);
-  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
-}
-.cert-name{font-size:0.95rem;font-weight:700;margin-bottom:3px;line-height:1.3}
-.cert-by{font-size:0.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:6px}
-.badge{
-  display:inline-block;font-size:0.68rem;padding:2px 9px;border-radius:100px;
-  font-family:'JetBrains Mono',monospace;font-weight:500;
-}
-.b-done{background:rgba(0,229,200,0.1);border:1px solid rgba(0,229,200,0.25);color:var(--cyan)}
-.b-wip{background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.25);color:var(--amber)}
-
-/* CONTACT */
-.contact-box{
-  background:var(--surface);border:1px solid var(--border);border-radius:16px;
-  padding:3.5rem;
-  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
-  position:relative;overflow:hidden;
-}
-.contact-box::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 80% 50%,rgba(0,229,200,0.04) 0%,transparent 60%);
-  pointer-events:none;
-}
-.c-head{font-size:1.8rem;font-weight:800;line-height:1.25;margin-bottom:1rem;letter-spacing:-0.5px}
-.c-sub{font-size:0.95rem;color:#7a9fc4;margin-bottom:2rem;font-weight:400;line-height:1.7}
-.c-links{display:flex;flex-direction:column;gap:.75rem}
-.c-link{
-  display:flex;align-items:center;gap:12px;
-  padding:.85rem 1.25rem;
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:8px;text-decoration:none;color:var(--text);
-  font-size:0.9rem;font-weight:400;transition:border-color .2s,color .2s,transform .2s;
-}
-.c-link:hover{border-color:var(--cyan);color:var(--cyan);transform:translateX(4px)}
-.c-link-icon{
-  width:32px;height:32px;border-radius:6px;
-  background:rgba(0,229,200,0.1);border:1px solid rgba(0,229,200,0.2);
-  display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;
-}
-.available-panel{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:2.5rem;
-  background:rgba(0,229,200,0.04);
-  border:1px solid rgba(0,229,200,0.15);border-radius:12px;
-  gap:1rem;
-}
-.av-ring{
-  width:56px;height:56px;border-radius:50%;
-  border:2px solid rgba(0,229,200,0.3);
-  display:flex;align-items:center;justify-content:center;
-  animation:spin-ring 4s linear infinite;
-}
-@keyframes spin-ring{to{transform:rotate(360deg)}}
-.av-dot{width:12px;height:12px;background:var(--cyan);border-radius:50%;animation:pulse 2s ease-in-out infinite}
-.av-label{font-size:1rem;font-weight:700;color:var(--cyan)}
-.av-sub{font-size:0.82rem;color:var(--muted);line-height:1.5}
-.av-tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:.5rem}
-
-/* DIVIDER */
-.divider{border:none;border-top:1px solid var(--border);max-width:1200px;margin:0 auto}
-
-/* FOOTER */
-footer{
-  text-align:center;padding:2rem;
-  border-top:1px solid var(--border);
-  font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);
-  position:relative;z-index:1;
-}
-footer span{color:var(--cyan)}
-
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.hero-left>*{animation:fadeUp .7s ease forwards;opacity:0}
-.hero-left>*:nth-child(1){animation-delay:.1s}
-.hero-left>*:nth-child(2){animation-delay:.2s}
-.hero-left>*:nth-child(3){animation-delay:.3s}
-.hero-left>*:nth-child(4){animation-delay:.4s}
-.hero-left>*:nth-child(5){animation-delay:.5s}
-.hero-left>*:nth-child(6){animation-delay:.6s}
-.terminal-wrap{animation:fadeUp .9s ease .5s forwards;opacity:0}
-
-/* SECTION FADE IN */
-.fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-.fade-in.visible{opacity:1;transform:translateY(0)}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  nav{padding:0 1.5rem}
-  .navlinks,.nav-cta{display:none}
-  .hero{padding:6rem 1.5rem 3rem}
-  .hero-inner{grid-template-columns:1fr;gap:3rem}
-  .terminal-wrap{order:-1}
-  .section{padding:4rem 1.5rem}
-  .contact-box{grid-template-columns:1fr;gap:2rem;padding:2rem}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dasari Ram Prasad — Aspiring DevOps Engineer specializing in Azure, AWS, Kubernetes, Terraform & CI/CD." />
+  <meta name="theme-color" content="#070b14" />
+  <title>Dasari Ram Prasad | DevOps Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-<div class="orb orb3"></div>
-
-<!-- NAV -->
-<nav>
-  <div class="logo">ram<em>.</em>prasad<span style="color:var(--cyan)">_</span></div>
-  <div class="navlinks">
-    <a href="#skills">Skills</a>
-    <a href="#projects">Projects</a>
-    <a href="#experience">Experience</a>
-    <a href="#contact">Contact</a>
+  <div class="mesh" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
   </div>
-  <a href="mailto:dasariramprasad5@gmail.com" class="nav-cta">Hire Me</a>
-  <button class="nav-dl" onclick="downloadResume()">
-    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Resume
-  </button>
-</nav>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="chip"><div class="chip-dot"></div>Open to DevOps Opportunities</div>
-      <h1 class="hero-name">Dasari<br><span class="grad">Ram Prasad</span></h1>
-      <p class="hero-role">// <span>DevOps Engineer</span> · Azure · AWS · Kubernetes</p>
-      <p class="hero-desc">
-        Building cloud infrastructure that scales. Specializing in Terraform IaC,
-        Kubernetes deployments, and CI/CD automation on Azure &amp; AWS.
-      </p>
-      <div class="hero-btns">
-        <a href="#projects" class="btn-g">View Projects</a>
-        <a href="#contact" class="btn-o">Get in Touch</a>
-        <button class="btn-dl" onclick="downloadResume()">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download CV
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#home" class="logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#lg)" stroke-width="2"/>
+            <path d="M10 21V11h4.2c2.1 0 3.4 1.1 3.4 2.8 0 1.2-.6 2.1-1.7 2.5L19 21h-2.4l-2.7-4.2H12.3V21H10zm2.3-6h1.8c.9 0 1.4-.4 1.4-1.1s-.5-1.1-1.4-1.1h-1.8V15z" fill="url(#lg)"/>
+            <defs>
+              <linearGradient id="lg" x1="2" y1="2" x2="30" y2="30">
+                <stop stop-color="#22d3ee"/><stop offset="1" stop-color="#a78bfa"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="logo-text">Ram Prasad<span class="logo-dot">.</span></span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#education" class="nav-link">Education</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="Dasari_Ram_Prasad_Resume.pdf" class="nav-cta" download="Dasari_Ram_Prasad_Resume.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Resume
+        </a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
-      </div>
-      <div class="stats">
-        <div>
-          <div class="stat-val">2+</div>
-          <div class="stat-label">Cloud Platforms</div>
-        </div>
-        <div style="width:1px;background:var(--border)"></div>
-        <div>
-          <div class="stat-val">3+</div>
-          <div class="stat-label">Live Projects</div>
-        </div>
-        <div style="width:1px;background:var(--border)"></div>
-        <div>
-          <div class="stat-val">3</div>
-          <div class="stat-label">Certifications</div>
-        </div>
-      </div>
-    </div>
-    <div class="terminal-wrap">
-      <div class="terminal">
-        <div class="tbar">
-          <div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>
-          <div class="ttitle">ram@devops ~ zsh</div>
-        </div>
-        <div class="tbody">
-<div><span class="tp">❯ </span><span class="tc">kubectl get nodes</span></div>
-<div><span class="tcom"># NAME              STATUS   ROLES</span></div>
-<div><span class="tg">aks-node-01    Ready    control-plane</span></div>
-<div><span class="tg">aks-node-02    Ready    worker</span></div>
-<br>
-<div><span class="tp">❯ </span><span class="tc">terraform plan -out=tfplan</span></div>
-<div><span class="tcom"># Refreshing state... </span></div>
-<div><span class="tb">Plan: </span><span class="tv">12 to add</span><span class="tc">, </span><span class="tg">0 to change</span></div>
-<br>
-<div><span class="tp">❯ </span><span class="tc">cat stack.yaml</span></div>
-<div><span class="tb">cloud</span>:<span class="tv"> [Azure, AWS]</span></div>
-<div><span class="tb">iac</span>:   <span class="tv">Terraform</span></div>
-<div><span class="tb">k8s</span>:   <span class="tv">AKS + Helm</span></div>
-<div><span class="tb">cicd</span>:  <span class="tv">Azure DevOps</span></div>
-<div><span class="tb">sec</span>:   <span class="tv">IAM + NSGs</span></div>
-<br>
-<div><span class="tp">❯ </span><span class="tc">helm upgrade --install app ./charts</span></div>
-<div><span class="tg">✓ Release "app" deployed. 0 downtime.</span></div>
-<div><span class="tp">❯ <span class="cursor">█</span></span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider"/>
-
-<!-- SKILLS -->
-<section class="section fade-in" id="skills">
-  <p class="s-eyebrow">// 01 — stack</p>
-  <h2 class="s-title">Technical Skills</h2>
-  <p class="s-sub">Cloud-native infrastructure, containers, and automation — the full DevOps toolkit.</p>
-  <div class="skills-grid">
-
-    <div class="sk-card">
-      <div class="sk-icon">☁️</div>
-      <div class="sk-head">Cloud Platforms</div>
-      <div class="pills">
-        <span class="pill pb">Azure VNet</span><span class="pill pb">AKS</span>
-        <span class="pill pb">NSGs</span><span class="pill pb">Load Balancers</span>
-        <span class="pill pb">Azure VMs</span><span class="pill pc">AWS EC2</span>
-        <span class="pill pc">AWS S3</span><span class="pill pc">IAM</span>
-        <span class="pill pc">VPC</span><span class="pill pc">CloudWatch</span>
-      </div>
-    </div>
-
-    <div class="sk-card">
-      <div class="sk-icon">🏗️</div>
-      <div class="sk-head">IaC & Containers</div>
-      <div class="pills">
-        <span class="pill pc">Terraform</span><span class="pill pc">Remote State</span>
-        <span class="pill pb">Docker</span><span class="pill pb">Kubernetes</span>
-        <span class="pill pb">AKS</span><span class="pill pp">Helm</span>
-        <span class="pill pp">Helm Charts</span>
-      </div>
-    </div>
-
-    <div class="sk-card">
-      <div class="sk-icon">🔄</div>
-      <div class="sk-head">CI/CD</div>
-      <div class="pills">
-        <span class="pill pb">Azure DevOps</span><span class="pill pb">Azure Pipelines</span>
-        <span class="pill pg">GitHub Actions</span><span class="pill pa">Artifact Publish</span>
-        <span class="pill pa">Approval Gates</span><span class="pill pg">Git Branching</span>
-      </div>
-    </div>
-
-    <div class="sk-card">
-      <div class="sk-icon">🔒</div>
-      <div class="sk-head">Security</div>
-      <div class="pills">
-        <span class="pill pc">IAM Policies</span><span class="pill pc">Least Privilege</span>
-        <span class="pill pb">NSGs</span><span class="pill pp">Linux Admin</span>
-        <span class="pill pp">TCP/IP</span><span class="pill pp">SSH</span>
-        <span class="pill pp">HTTPS · DNS</span>
-      </div>
-    </div>
-
-    <div class="sk-card">
-      <div class="sk-icon">📊</div>
-      <div class="sk-head">Monitoring</div>
-      <div class="pills">
-        <span class="pill pc">AWS CloudWatch</span><span class="pill pb">Alarms</span>
-        <span class="pill pa">Prometheus ⟨learning⟩</span>
-        <span class="pill pa">Grafana ⟨learning⟩</span>
-      </div>
-    </div>
-
-    <div class="sk-card">
-      <div class="sk-icon">🔀</div>
-      <div class="sk-head">Version Control</div>
-      <div class="pills">
-        <span class="pill pg">Git</span><span class="pill pg">GitHub</span>
-        <span class="pill pc">Branching Strategy</span>
-        <span class="pill pb">Pull Requests</span>
-        <span class="pill pb">Code Reviews</span>
-        <span class="pill pp">Bash Scripting</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<hr class="divider"/>
-
-<!-- PROJECTS -->
-<section class="section fade-in" id="projects">
-  <p class="s-eyebrow">// 02 — work</p>
-  <h2 class="s-title">Featured Projects</h2>
-  <p class="s-sub">Real-world infrastructure automation and cloud deployment projects.</p>
-  <div class="proj-grid">
-
-    <div class="proj-card">
-      <div class="proj-num">PROJECT · 01</div>
-      <div class="proj-name">Automated Azure Infrastructure with Terraform & Azure DevOps CI/CD</div>
-      <div class="proj-desc">
-        Designed end-to-end Azure infrastructure using reusable Terraform modules with remote state in Blob Storage.
-        Built CI/CD pipelines to automate plan/apply workflows. Deployed containerized microservices on AKS
-        with zero-downtime rolling updates via Helm.
-      </div>
-      <div class="proj-tech">
-        <span class="pt pc">Terraform</span>
-        <span class="pt pb">Azure DevOps</span>
-        <span class="pt pb">AKS</span>
-        <span class="pt pc">Kubernetes</span>
-        <span class="pt pp">Helm</span>
-        <span class="pt pa">Blob Storage</span>
-      </div>
-    </div>
-
-    <div class="proj-card">
-      <div class="proj-num">PROJECT · 02</div>
-      <div class="proj-name">Production Management System — .NET CI/CD Pipeline</div>
-      <div class="proj-desc">
-        Implemented full CI/CD pipeline for a .NET-based PMS using Azure DevOps. Automated build, test,
-        artifact publishing and deployment. Configured Git branching, PR workflows, manual approval gates,
-        and pipeline monitoring.
-      </div>
-      <div class="proj-tech">
-        <span class="pt pb">Azure DevOps</span>
-        <span class="pt pb">Azure Pipelines</span>
-        <span class="pt pg">.NET Core</span>
-        <span class="pt pa">Git</span>
-        <span class="pt pc">CI/CD</span>
-      </div>
-    </div>
-
-    <div class="proj-card">
-      <div class="proj-num">PROJECT · 03</div>
-      <div class="proj-name">Static Portfolio Website — Azure Blob Static Hosting</div>
-      <div class="proj-desc">
-        Hosted a personal portfolio as a static website on Azure Blob Storage. Configured the <code style="font-family:'JetBrains Mono';font-size:.75rem;color:var(--cyan);background:rgba(0,229,200,0.07);padding:1px 5px;border-radius:3px">$web</code> container,
-        enabled static website feature, set index document, and deployed HTML/CSS assets —
-        demonstrating core Azure cloud hosting fundamentals.
-      </div>
-      <div class="proj-tech">
-        <span class="pt pb">Azure Blob Storage</span>
-        <span class="pt pc">Static Hosting</span>
-        <span class="pt pa">HTML · CSS</span>
-        <span class="pt pg">Azure Portal</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<hr class="divider"/>
-
-<!-- EXPERIENCE -->
-<section class="section fade-in" id="experience">
-  <p class="s-eyebrow">// 03 — experience</p>
-  <h2 class="s-title">Work Experience</h2>
-  <p class="s-sub">Hands-on cloud infrastructure experience in a real production environment.</p>
-  <div class="exp-card">
-    <div>
-      <div class="exp-role">Cloud Computing Intern</div>
-      <div class="exp-co">SmartED Innovations · Learnspace Edtech Pvt. Ltd.</div>
-      <ul class="exp-list">
-        <li>Provisioned and managed AWS cloud infrastructure using EC2, S3, VPC, and IAM across development and staging multi-tier environments.</li>
-        <li>Implemented security best practices with IAM least-privilege policies, security groups, and network-level access controls — reducing misconfiguration risk.</li>
-        <li>Monitored resource health and performance using AWS CloudWatch; configured CPU and memory utilization alarms.</li>
-        <li>Gained parallel exposure to Azure — VNets, NSGs, VM deployments, and Load Balancers — alongside AWS workflows.</li>
-      </ul>
-    </div>
-    <div class="exp-duration">3 Months<br>2025</div>
-  </div>
-</section>
-
-<hr class="divider"/>
-
-<!-- CERTS -->
-<section class="section fade-in">
-  <p class="s-eyebrow">// 04 — certifications</p>
-  <h2 class="s-title">Certifications</h2>
-  <p class="s-sub">Validated cloud and DevOps expertise.</p>
-  <div class="certs-grid">
-    <div class="cert-card">
-      <div class="cert-ic">🏅</div>
-      <div>
-        <div class="cert-name">AWS Cloud Practitioner Essentials</div>
-        <div class="cert-by">Amazon Web Services</div>
-        <span class="badge b-done">Completed</span>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-ic">☁️</div>
-      <div>
-        <div class="cert-name">Cloud Computing Certification</div>
-        <div class="cert-by">SmartED Innovations</div>
-        <span class="badge b-done">Completed</span>
-      </div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-ic">🔐</div>
-      <div>
-        <div class="cert-name">Multi Cloud DevSecOps</div>
-        <div class="cert-by">V Cube Software Solutions</div>
-        <span class="badge b-wip">In Progress</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider"/>
-
-<!-- EDUCATION -->
-<section class="section fade-in">
-  <p class="s-eyebrow">// 05 — education</p>
-  <h2 class="s-title">Education</h2>
-  <div class="exp-card">
-    <div>
-      <div class="exp-role">B.Tech — Civil Engineering</div>
-      <div class="exp-co">SV College of Engineering, Tirupati</div>
-      <ul class="exp-list">
-        <li>CGPA: 82.6%</li>
-        <li>Self-transitioned into DevOps &amp; Cloud Engineering through dedicated certifications, self-study, and hands-on project work — proving that domain expertise is built, not inherited.</li>
-      </ul>
-    </div>
-    <div class="exp-duration">Graduated<br>2026</div>
-  </div>
-</section>
-
-<hr class="divider"/>
-
-<!-- CONTACT -->
-<section class="section fade-in" id="contact">
-  <p class="s-eyebrow">// 06 — contact</p>
-  <h2 class="s-title">Let's Build Together</h2>
-  <div class="contact-box">
-    <div>
-      <div class="c-head">Open to DevOps &amp;<br>Cloud Roles</div>
-      <p class="c-sub">Actively looking for opportunities where I can automate infrastructure, build CI/CD pipelines, and ship reliable cloud systems.</p>
-      <div class="c-links">
-        <a href="mailto:dasariramprasad5@gmail.com" class="c-link">
-          <div class="c-link-icon">✉</div>
-          dasariramprasad5@gmail.com
-        </a>
-        <a href="tel:+916281686788" class="c-link">
-          <div class="c-link-icon">📞</div>
-          +91 62816 86788
-        </a>
-        <a href="https://www.linkedin.com/in/ram-prasad-dasari-8b1b52217" target="_blank" class="c-link">
-          <div class="c-link-icon">💼</div>
-          linkedin.com/in/ram-prasad-dasari
-        </a>
-        <button class="c-link" onclick="downloadResume()" style="border:1px solid rgba(0,229,200,0.3);cursor:pointer;background:rgba(0,229,200,0.04);color:var(--cyan);font-family:'Outfit',sans-serif;font-size:0.9rem;text-align:left;">
-          <div class="c-link-icon" style="background:rgba(0,229,200,0.15);border-color:rgba(0,229,200,0.3)">⬇</div>
-          Download Resume (PDF)
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
         </button>
       </div>
     </div>
-    <div class="available-panel">
-      <div class="av-ring"><div class="av-dot"></div></div>
-      <div class="av-label">Available for Hire</div>
-      <div class="av-sub">Based in Hyderabad, India<br>Open to remote &amp; on-site</div>
-      <div class="av-tags">
-        <span class="pill pc" style="font-size:.7rem">Azure</span>
-        <span class="pill pb" style="font-size:.7rem">AWS</span>
-        <span class="pill pp" style="font-size:.7rem">Terraform</span>
-        <span class="pill pg" style="font-size:.7rem">Kubernetes</span>
+  </header>
+
+  <main>
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <p class="hero-badge reveal">
+          <span class="pulse-dot"></span>
+          Available for DevOps roles · Hyderabad
+        </p>
+        <h1 class="hero-title reveal">
+          Cloud infrastructure<br />
+          that <span class="gradient-text">ships itself</span>
+        </h1>
+        <h2 class="hero-subtitle reveal">
+          <span class="typed-prefix">I'm a </span><span class="typed" id="typed"></span><span class="cursor">|</span>
+        </h2>
+        <p class="hero-desc reveal">
+          Hi, I'm <strong>Dasari Ram Prasad</strong> — building production multi-tier apps on
+          <strong>Azure</strong> &amp; <strong>AWS</strong>, with Kubernetes, Terraform, and
+          CI/CD pipelines that cut release effort by <strong>80%</strong>.
+        </p>
+        <div class="hero-cta reveal">
+          <a href="#projects" class="btn btn-primary">
+            <span>View Projects</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="Dasari_Ram_Prasad_Resume.pdf" class="btn btn-glass" download="Dasari_Ram_Prasad_Resume.pdf">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download Resume
+          </a>
+        </div>
+        <div class="hero-socials reveal">
+          <a href="https://github.com/DASARI5728558" target="_blank" rel="noopener" aria-label="GitHub" class="social-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 002 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5A10.02 10.02 0 0022 12 10 10 0 0012 2z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/ram-prasad-dasari-8b1b52217" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          </a>
+          <a href="/cdn-cgi/l/email-protection#3b5f5a485a4952495a564b495a485a5f0e7b5c565a525715585456" aria-label="Email" class="social-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+          </a>
+          <a href="tel:+916281686788" aria-label="Phone" class="social-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </a>
+        </div>
       </div>
+
+      <div class="hero-visual reveal">
+        <div class="terminal-wrap">
+          <div class="float-chip chip-1">Terraform</div>
+          <div class="float-chip chip-2">Kubernetes</div>
+          <div class="float-chip chip-3">GitHub Actions</div>
+          <div class="float-chip chip-4">Azure · AWS</div>
+
+          <div class="terminal">
+            <div class="terminal-bar">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span class="terminal-title">ram@devops — zsh</span>
+              <span class="terminal-live"><span class="live-dot"></span> live</span>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+              <div class="t-line"><span class="t-prompt">➜</span> <span class="t-cmd">whoami</span></div>
+              <div class="t-line t-out">dasari-ram-prasad · devops-engineer</div>
+              <div class="t-line"><span class="t-prompt">➜</span> <span class="t-cmd">cat skills.yaml | yq '.cloud[]'</span></div>
+              <div class="t-line t-out t-cyan">Azure · AWS · AKS · EKS · Terraform</div>
+              <div class="t-line"><span class="t-prompt">➜</span> <span class="t-cmd">kubectl get deploy -n agritech</span></div>
+              <div class="t-line t-out mono">
+                <span class="t-dim">NAME</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-dim">READY</span>&nbsp;&nbsp;<span class="t-dim">STATUS</span><br>
+                agritech-api&nbsp;&nbsp;&nbsp;<span class="t-ok">3/3</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-ok">Running</span><br>
+                agritech-web&nbsp;&nbsp;&nbsp;<span class="t-ok">2/2</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-ok">Running</span>
+              </div>
+              <div class="t-line"><span class="t-prompt">➜</span> <span class="t-cmd">terraform apply -auto-approve</span></div>
+              <div class="t-line t-out t-ok">✓ Apply complete! Resources: 12 added · 0 changed</div>
+              <div class="t-line"><span class="t-prompt">➜</span> <span class="t-cmd">pipeline status --last</span></div>
+              <div class="t-line t-out"><span class="pipe-ok">● build</span> → <span class="pipe-ok">● test</span> → <span class="pipe-ok">● deploy</span> · <span class="t-ok">95%+ success</span></div>
+              <div class="t-line"><span class="t-prompt">➜</span> <span class="t-blink">▌</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ STATS ═══════════ -->
+    <section class="stats" id="stats">
+      <div class="stats-grid">
+        <div class="stat reveal" style="--d:0">
+          <div class="stat-icon">☁</div>
+          <div class="stat-value"><span class="stat-num" data-target="4">0</span><span class="stat-suffix">+</span></div>
+          <span class="stat-label">Cloud Projects</span>
+        </div>
+        <div class="stat reveal" style="--d:1">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-value"><span class="stat-num" data-target="80">0</span><span class="stat-suffix">%</span></div>
+          <span class="stat-label">Faster Releases</span>
+        </div>
+        <div class="stat reveal" style="--d:2">
+          <div class="stat-icon">★</div>
+          <div class="stat-value"><span class="stat-num" data-target="8.5">0</span></div>
+          <span class="stat-label">CGPA / 10</span>
+        </div>
+        <div class="stat reveal" style="--d:3">
+          <div class="stat-icon">&lt;/&gt;</div>
+          <div class="stat-value"><span class="stat-num" data-target="6">0</span></div>
+          <span class="stat-label">GitHub Repos</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ ABOUT ═══════════ -->
+    <section class="section" id="about">
+      <div class="section-header reveal">
+        <span class="section-tag"><span class="tag-hash">01</span> about me</span>
+        <h2 class="section-title">Professional Summary</h2>
+        <p class="section-lead">From civil engineering foundations to cloud-native automation.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card glass reveal">
+          <div class="card-glow"></div>
+          <p>
+            DevOps-focused engineering student (<strong>8.5 CGPA</strong>) with hands-on experience building and
+            deploying <strong>production-grade, multi-tier applications</strong> on <strong>Microsoft Azure</strong>
+            and <strong>AWS</strong>.
+          </p>
+          <p>
+            Designed end-to-end CI/CD pipelines that reduced manual release effort by <strong>80%</strong>,
+            provisioned cloud infrastructure using Terraform and ARM templates, and orchestrated containerized
+            workloads on <strong>Kubernetes (AKS &amp; EKS)</strong> with Helm.
+          </p>
+          <p>
+            Transitioning from Civil Engineering to DevOps, bringing strong analytical thinking and project
+            management skills. Seeking a DevOps Engineer role to apply cloud automation and container
+            orchestration expertise at scale.
+          </p>
+          <div class="about-tags">
+            <span class="tag">Azure</span>
+            <span class="tag">AWS</span>
+            <span class="tag">Kubernetes</span>
+            <span class="tag">Terraform</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">Docker</span>
+            <span class="tag">Helm</span>
+            <span class="tag">Linux</span>
+          </div>
+        </div>
+
+        <aside class="about-info glass reveal">
+          <div class="info-row">
+            <span class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </span>
+            <div>
+              <span class="info-label">Location</span>
+              <span class="info-value">Hyderabad, India</span>
+            </div>
+          </div>
+          <div class="info-row">
+            <span class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+            </span>
+            <div>
+              <span class="info-label">Email</span>
+              <a class="info-value link" href="/cdn-cgi/l/email-protection#8eeaeffdeffce7fcefe3fefceffdefeabbcee9e3efe7e2a0ede1e3"><span class="__cf_email__" data-cfemail="0662677567746f74676b7674677567623346616b676f6a2865696b">[email&#160;protected]</span></a>
+            </div>
+          </div>
+          <div class="info-row">
+            <span class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </span>
+            <div>
+              <span class="info-label">Phone</span>
+              <a class="info-value link" href="tel:+916281686788">+91 6281686788</a>
+            </div>
+          </div>
+          <div class="info-row">
+            <span class="info-icon status-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </span>
+            <div>
+              <span class="info-label">Status</span>
+              <span class="info-value status-live"><span class="pulse-dot sm"></span> Available for hire</span>
+            </div>
+          </div>
+          <div class="about-actions">
+            <a href="Dasari_Ram_Prasad_Resume.pdf" class="btn btn-glass btn-full" download="Dasari_Ram_Prasad_Resume.pdf">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              Download Resume
+            </a>
+            <a href="/cdn-cgi/l/email-protection#2d494c5e4c5f445f4c405d5f4c5e4c49186d4a404c4441034e4240125e584f47484e5910625d5d425f595843445954081f1d4b425f081f1d69485b625d5e081f1d68434a444348485f" class="btn btn-primary btn-full">
+              Hire Me
+            </a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ═══════════ SKILLS ═══════════ -->
+    <section class="section section-alt" id="skills">
+      <div class="section-header reveal">
+        <span class="section-tag"><span class="tag-hash">02</span> tech stack</span>
+        <h2 class="section-title">Technical Skills</h2>
+        <p class="section-lead">Tools I use to design, automate, and ship reliable infrastructure.</p>
+      </div>
+      <div class="skills-grid">
+        <article class="skill-card glass reveal">
+          <div class="skill-top">
+            <div class="skill-icon cloud">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>
+            </div>
+            <span class="skill-count">02 clouds</span>
+          </div>
+          <h3>Cloud Platforms</h3>
+          <ul>
+            <li><strong>Azure</strong> — VM, VNet, NSG, AKS, ACR, ARM, MySQL Flexible</li>
+            <li><strong>AWS</strong> — EC2, S3, IAM, VPC, EKS, ECR, RDS, CloudWatch</li>
+          </ul>
+        </article>
+        <article class="skill-card glass reveal">
+          <div class="skill-top">
+            <div class="skill-icon container">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2M12 12v4M8 12h8"/></svg>
+            </div>
+            <span class="skill-count">AKS / EKS</span>
+          </div>
+          <h3>Containerization</h3>
+          <ul>
+            <li>Docker &amp; multi-stage builds</li>
+            <li>Kubernetes (AKS / EKS)</li>
+            <li>Helm Charts</li>
+          </ul>
+        </article>
+        <article class="skill-card glass reveal">
+          <div class="skill-top">
+            <div class="skill-icon iac">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+            </div>
+            <span class="skill-count">IaC</span>
+          </div>
+          <h3>IaC &amp; Config</h3>
+          <ul>
+            <li>Terraform</li>
+            <li>Azure ARM Templates</li>
+            <li>Infrastructure as Code best practices</li>
+          </ul>
+        </article>
+        <article class="skill-card glass reveal">
+          <div class="skill-top">
+            <div class="skill-icon cicd">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+            </div>
+            <span class="skill-count">pipelines</span>
+          </div>
+          <h3>CI/CD</h3>
+          <ul>
+            <li>Azure DevOps Pipelines</li>
+            <li>GitHub Actions</li>
+            <li>Release gates &amp; PR workflows</li>
+          </ul>
+        </article>
+        <article class="skill-card glass reveal">
+          <div class="skill-top">
+            <div class="skill-icon script">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            </div>
+            <span class="skill-count">shell</span>
+          </div>
+          <h3>Scripting &amp; OS</h3>
+          <ul>
+            <li>Bash / Shell Scripting</li>
+            <li>Linux (Ubuntu, CentOS)</li>
+            <li>Git &amp; branching strategies</li>
+          </ul>
+        </article>
+        <article class="skill-card glass reveal">
+          <div class="skill-top">
+            <div class="skill-icon security">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span class="skill-count">secure</span>
+          </div>
+          <h3>Security &amp; Data</h3>
+          <ul>
+            <li>IAM Policies, NSGs, Least-Privilege</li>
+            <li>Secrets Management</li>
+            <li>MySQL, Azure MySQL, AWS RDS</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══════════ PROJECTS ═══════════ -->
+    <section class="section" id="projects">
+      <div class="section-header reveal">
+        <span class="section-tag"><span class="tag-hash">03</span> featured work</span>
+        <h2 class="section-title">Key Projects</h2>
+        <p class="section-lead">Production-style deployments across AWS and Azure with measurable impact.</p>
+      </div>
+
+      <div class="projects-list">
+
+        <!-- Project 1 -->
+        <article class="project-card glass reveal">
+          <div class="project-accent aws-accent"></div>
+          <div class="project-layout">
+            <div class="project-visual">
+              <div class="arch-diagram">
+                <div class="arch-row">
+                  <span class="arch-node">GitHub</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node">Actions</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node">ECR</span>
+                </div>
+                <div class="arch-row">
+                  <span class="arch-node accent">Terraform</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node accent">EKS</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node">Helm</span>
+                </div>
+                <div class="arch-row">
+                  <span class="arch-node">Ingress</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node">Pods</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node">RDS</span>
+                </div>
+              </div>
+              <div class="impact-pills">
+                <span class="impact"><strong>70%</strong> faster provision</span>
+                <span class="impact"><strong>2w → 2h</strong> releases</span>
+                <span class="impact"><strong>15+</strong> issues fixed</span>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-num">01</span>
+                <span class="project-year">2026</span>
+                <span class="project-cloud aws">AWS</span>
+              </div>
+              <h3 class="project-title">Agritech Marketplace — 2-Tier AWS DevOps Deployment</h3>
+              <p class="project-desc">
+                Production deployment of a 2-tier Agritech Marketplace on Amazon EKS with fully automated
+                infrastructure provisioning and CI/CD.
+              </p>
+              <ul class="project-highlights">
+                <li>Reduced infrastructure provisioning time by <strong>70%</strong> (2+ hrs → ~35 min) with Terraform</li>
+                <li>CI/CD with GitHub Actions cut release cycle from <strong>2 weeks to under 2 hours</strong></li>
+                <li>Configured Ingress, Services, ConfigMaps, Secrets &amp; IAM least-privilege policies</li>
+                <li>Resolved <strong>15+ real-world</strong> infra issues (state, IAM, Helm, pod crash loops)</li>
+              </ul>
+              <div class="project-tech">
+                <span>AWS EKS</span><span>ECR</span><span>Terraform</span><span>Docker</span>
+                <span>Helm</span><span>GitHub Actions</span><span>RDS</span><span>Spring Boot</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card glass reveal">
+          <div class="project-accent azure-accent"></div>
+          <div class="project-layout reverse">
+            <div class="project-visual">
+              <div class="arch-diagram">
+                <div class="arch-row">
+                  <span class="arch-node accent">Public Subnet</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node">Azure VM</span>
+                </div>
+                <div class="arch-row">
+                  <span class="arch-node">Nginx</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node">Spring Boot</span>
+                </div>
+                <div class="arch-row">
+                  <span class="arch-node">NSG + DNS</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node accent">Private MySQL</span>
+                </div>
+              </div>
+              <div class="impact-pills">
+                <span class="impact"><strong>2-tier</strong> isolation</span>
+                <span class="impact"><strong>Private</strong> DB tier</span>
+                <span class="impact"><strong>AI</strong> recommendations</span>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-num">02</span>
+                <span class="project-year">2026</span>
+                <span class="project-cloud azure">Azure</span>
+              </div>
+              <h3 class="project-title">Agritech Marketplace — Azure 2-Tier Full-Stack App</h3>
+              <p class="project-desc">
+                Secure 2-tier architecture on Azure with network isolation, private database tier, and
+                AI-driven crop-input recommendations.
+              </p>
+              <ul class="project-highlights">
+                <li>App tier in public subnet; DB tier in private subnet behind NSG rules</li>
+                <li>Full-stack AgriTech Marketplace with AI fertilizer/pesticide suggestions</li>
+                <li>Private DNS Zone + NSG rules restricting DB access to app layer only</li>
+              </ul>
+              <div class="project-tech">
+                <span>Azure VM</span><span>VNet</span><span>NSG</span><span>Private DNS</span>
+                <span>MySQL Flexible</span><span>Nginx</span><span>Spring Boot 3.x</span><span>Java 17</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project-card glass reveal">
+          <div class="project-accent azure-accent"></div>
+          <div class="project-layout">
+            <div class="project-visual">
+              <div class="arch-diagram pipeline">
+                <div class="pipe-stage done">
+                  <span class="pipe-dot"></span>
+                  <span>Commit</span>
+                </div>
+                <div class="pipe-line"></div>
+                <div class="pipe-stage done">
+                  <span class="pipe-dot"></span>
+                  <span>Build</span>
+                </div>
+                <div class="pipe-line"></div>
+                <div class="pipe-stage done">
+                  <span class="pipe-dot"></span>
+                  <span>PR Gate</span>
+                </div>
+                <div class="pipe-line"></div>
+                <div class="pipe-stage done">
+                  <span class="pipe-dot"></span>
+                  <span>Release</span>
+                </div>
+              </div>
+              <div class="impact-pills">
+                <span class="impact"><strong>95%+</strong> build success</span>
+                <span class="impact"><strong>80%</strong> less manual work</span>
+                <span class="impact"><strong>Zero</strong> downtime CD</span>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-num">03</span>
+                <span class="project-year">2026</span>
+                <span class="project-cloud azure">Azure</span>
+              </div>
+              <h3 class="project-title">Production Management System — Azure DevOps CI/CD</h3>
+              <p class="project-desc">
+                End-to-end CI/CD pipeline for a .NET Production Management System with PR validation
+                and approval-based release gates.
+              </p>
+              <ul class="project-highlights">
+                <li>Git branching + PR validation achieving <strong>95%+ build success rate</strong></li>
+                <li>Automated build, validate &amp; publish of .NET artifacts — <strong>80% less</strong> manual effort</li>
+                <li>CD pipelines with approval gates for zero-downtime production releases</li>
+              </ul>
+              <div class="project-tech">
+                <span>Azure DevOps</span><span>Git</span><span>.NET</span><span>CI/CD Pipelines</span><span>Release Gates</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="project-card glass reveal">
+          <div class="project-accent azure-accent"></div>
+          <div class="project-layout reverse">
+            <div class="project-visual">
+              <div class="arch-diagram">
+                <div class="arch-row">
+                  <span class="arch-node accent">ARM Template</span>
+                </div>
+                <div class="arch-row multi">
+                  <span class="arch-node">VM</span>
+                  <span class="arch-node">VNet</span>
+                  <span class="arch-node">NSG</span>
+                  <span class="arch-node">PIP</span>
+                </div>
+                <div class="arch-row">
+                  <span class="arch-node">GitHub</span>
+                  <span class="arch-arrow">→</span>
+                  <span class="arch-node">Nginx App</span>
+                </div>
+              </div>
+              <div class="impact-pills">
+                <span class="impact"><strong>100%</strong> automated</span>
+                <span class="impact"><strong>&lt;30 min</strong> deploy</span>
+                <span class="impact"><strong>0</strong> manual steps</span>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-num">04</span>
+                <span class="project-year">2026</span>
+                <span class="project-cloud azure">Azure</span>
+              </div>
+              <h3 class="project-title">Automated Server Deployment Using Native Cloud Tools</h3>
+              <p class="project-desc">
+                Infrastructure-as-Code automation on Azure using ARM templates, deploying a Blinkit-inspired
+                web app with zero manual setup.
+              </p>
+              <ul class="project-highlights">
+                <li>ARM template deploys VM, VNet, NSG &amp; Public IP — <strong>100% automated</strong></li>
+                <li>GitHub-integrated deploy with Nginx; full deployment in under <strong>30 minutes</strong></li>
+              </ul>
+              <div class="project-tech">
+                <span>ARM Templates</span><span>Azure VM</span><span>VNet</span><span>NSG</span>
+                <span>Nginx</span><span>GitHub</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ═══════════ EDUCATION ═══════════ -->
+    <section class="section section-alt" id="education">
+      <div class="section-header reveal">
+        <span class="section-tag"><span class="tag-hash">04</span> credentials</span>
+        <h2 class="section-title">Education &amp; Certifications</h2>
+      </div>
+      <div class="edu-grid">
+        <div class="edu-card glass reveal">
+          <div class="edu-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <div class="edu-content">
+            <span class="edu-badge">B.Tech</span>
+            <h3>Civil Engineering</h3>
+            <p class="edu-org">S.V. College of Engineering · Tirupati, India</p>
+            <div class="edu-meta">
+              <span>Sep 2023 – Apr 2026</span>
+              <span class="cgpa">CGPA: 8.5 / 10</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cert-card glass reveal">
+          <div class="cert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
+          <div>
+            <h3>AWS Cloud Practitioner Essentials</h3>
+            <p>Amazon Web Services · July 2025</p>
+          </div>
+        </div>
+
+        <div class="cert-card glass reveal">
+          <div class="cert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
+          <div>
+            <h3>Cloud Computing</h3>
+            <p>SmartED Innovations · September 2025</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="achievements glass reveal">
+        <h3 class="achievements-title">Achievements &amp; Activities</h3>
+        <div class="achievements-grid">
+          <div class="achievement">
+            <span class="ach-icon">✦</span>
+            <p>Completed <strong>4+ end-to-end cloud projects</strong> spanning Azure and AWS with production deployments</p>
+          </div>
+          <div class="achievement">
+            <span class="ach-icon">✦</span>
+            <p>Built and managed <strong>6 GitHub repositories</strong> with clean commit history and README docs</p>
+          </div>
+          <div class="achievement">
+            <span class="ach-icon">✦</span>
+            <p>Self-taught DevOps skills through structured learning paths on AWS and Azure platforms</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ CONTACT ═══════════ -->
+    <section class="section" id="contact">
+      <div class="section-header reveal center">
+        <span class="section-tag"><span class="tag-hash">05</span> let's connect</span>
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-lead">
+          Looking for a DevOps engineer who can ship reliable cloud infrastructure?
+          Let's talk about how I can help your team.
+        </p>
+      </div>
+      <div class="contact-wrap reveal">
+        <div class="contact-cards">
+          <a href="/cdn-cgi/l/email-protection#acc8cddfcddec5decdc1dcdecddfcdc899eccbc1cdc5c082cfc3c1" class="contact-card glass">
+            <div class="contact-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+            </div>
+            <span class="contact-card-label">Email</span>
+            <span class="contact-card-value"><span class="__cf_email__" data-cfemail="a6c2c7d5c7d4cfd4c7cbd6d4c7d5c7c293e6c1cbc7cfca88c5c9cb">[email&#160;protected]</span></span>
+          </a>
+          <a href="tel:+916281686788" class="contact-card glass">
+            <div class="contact-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <span class="contact-card-label">Phone</span>
+            <span class="contact-card-value">+91 6281686788</span>
+          </a>
+          <a href="https://www.linkedin.com/in/ram-prasad-dasari-8b1b52217" target="_blank" rel="noopener" class="contact-card glass">
+            <div class="contact-card-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            </div>
+            <span class="contact-card-label">LinkedIn</span>
+            <span class="contact-card-value">ram-prasad-dasari</span>
+          </a>
+          <a href="https://github.com/DASARI5728558" target="_blank" rel="noopener" class="contact-card glass">
+            <div class="contact-card-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 002 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5A10.02 10.02 0 0022 12 10 10 0 0012 2z"/></svg>
+            </div>
+            <span class="contact-card-label">GitHub</span>
+            <span class="contact-card-value">DASARI5728558</span>
+          </a>
+        </div>
+
+        <div class="languages">
+          <span class="lang-label">Languages</span>
+          <span class="lang-pill">English (Professional)</span>
+          <span class="lang-pill">Telugu (Native)</span>
+        </div>
+
+        <div class="resume-download-block">
+          <a href="Dasari_Ram_Prasad_Resume.pdf" class="btn btn-primary" download="Dasari_Ram_Prasad_Resume.pdf">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg>
+            Download Full Resume (PDF)
+          </a>
+          <a href="Dasari_Ram_Prasad_Resume.html" class="btn btn-glass" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            View Resume (HTML)
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>© <span id="year"></span> Dasari Ram Prasad · Built for the cloud</p>
+      <a href="#home" class="back-top" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+      </a>
     </div>
-  </div>
-</section>
+  </footer>
 
-<footer>
-  <p>Hosted on <span>Azure Static Website</span> · Built with ♥ by <span>Dasari Ram Prasad</span> · 2025</p>
-</footer>
-
-<div id="toast"><span class="t-ic">✓</span><span id="toast-msg">Resume downloaded!</span></div>
-
-<script>
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
-},{threshold:0.1});
-document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
-
-function showToast(msg){
-  const t=document.getElementById('toast');
-  document.getElementById('toast-msg').textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
-}
-
-function downloadResume(){
-  const btn=event.currentTarget;
-  const orig=btn.innerHTML;
-  btn.innerHTML=btn.innerHTML.replace(/Download.*|Resume/,'Generating…');
-  btn.disabled=true;
-
-  setTimeout(()=>{
-    try{
-      const {jsPDF}=window.jspdf;
-      const doc=new jsPDF({unit:'mm',format:'a4'});
-      const W=210, M=18, cw=W-M*2;
-
-      // helpers
-      const hex=(h)=>{const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return[r,g,b]};
-      const setFont=(size,style='normal',color='#1a202c')=>{
-        doc.setFontSize(size);doc.setFont('helvetica',style);
-        const [r,g,b]=hex(color);doc.setTextColor(r,g,b);
-      };
-
-      let y=0;
-
-      // ── HEADER BG
-      doc.setFillColor(4,7,15);
-      doc.rect(0,0,W,48,'F');
-
-      // accent bar
-      doc.setFillColor(0,229,200);
-      doc.rect(0,0,W,3,'F');
-
-      // Name
-      setFont(26,'bold','#dde8f5');
-      doc.text('DASARI RAM PRASAD',M,20);
-
-      // Role
-      setFont(10,'normal','#00e5c8');
-      doc.text('DevOps Engineer  |  Azure & AWS  |  Terraform  |  Kubernetes  |  CI/CD',M,29);
-
-      // Contact line
-      setFont(8,'normal','#5a7499');
-      doc.text('dasariramprasad5@gmail.com   |   +91 6281686788   |   linkedin.com/in/ram-prasad-dasari-8b1b52217',M,38);
-
-      y=56;
-
-      // ── SECTION helper
-      const section=(title)=>{
-        doc.setFillColor(13,21,38);
-        doc.rect(M,y-4,cw,7,'F');
-        setFont(9,'bold','#00e5c8');
-        doc.text(title.toUpperCase(),M+2,y+1);
-        doc.setDrawColor(0,229,200);doc.setLineWidth(0.3);
-        doc.line(M,y+3,M+cw,y+3);
-        y+=10;
-      };
-
-      // ── SUMMARY
-      section('Professional Summary');
-      setFont(9,'normal','#2d3748');
-      const sumText='Self-driven DevOps Engineer with hands-on experience in provisioning and managing cloud infrastructure on Azure and AWS. Proficient in Terraform (IaC), Kubernetes (AKS), Helm, Docker, and Azure DevOps CI/CD pipelines. Delivered automated infrastructure deployments and containerized application rollouts through real-world projects and internship. Passionate about building scalable, secure, and highly available systems.';
-      const sumLines=doc.splitTextToSize(sumText,cw);
-      doc.text(sumLines,M,y);
-      y+=sumLines.length*5+6;
-
-      // ── SKILLS
-      section('Technical Skills');
-      const skills=[
-        ['Cloud Platforms','AWS (EC2, S3, IAM, VPC, CloudWatch) · Azure (VNet, Subnets, NSGs, VM, Load Balancers, AKS)'],
-        ['DevOps & IaC','Terraform · Docker · Kubernetes (AKS) · Helm · Azure DevOps'],
-        ['CI/CD','Azure DevOps Pipelines · GitHub Actions · Pipeline design & automation'],
-        ['Scripting','Bash / Shell Scripting'],
-        ['OS & Networking','Linux administration · TCP/IP · DNS · HTTPS · SSH'],
-        ['Security','IAM Policies · Least-Privilege Access · NSGs · Cloud Security Best Practices'],
-        ['Version Control','Git · GitHub · Branching strategies · Pull Requests · Code Reviews'],
-        ['Monitoring','AWS CloudWatch · (Learning: Prometheus & Grafana)'],
-      ];
-      skills.forEach(([k,v])=>{
-        setFont(8.5,'bold','#1a202c');doc.text(k+':',M,y);
-        setFont(8.5,'normal','#2d3748');
-        const vLines=doc.splitTextToSize(v,cw-38);
-        doc.text(vLines,M+38,y);
-        y+=vLines.length*4.5+2;
-      });
-      y+=2;
-
-      // ── EXPERIENCE
-      section('Internship Experience');
-      setFont(10,'bold','#1a202c');doc.text('Cloud Computing Intern',M,y);
-      setFont(9,'normal','#00e5c8');doc.text('SmartED Innovations (Learnspace Edtech Pvt. Ltd.)',M,y+5);
-      setFont(8,'normal','#5a7499');doc.text('3 Months · 2025',W-M,y,{align:'right'});
-      y+=12;
-      const expBullets=[
-        'Provisioned and managed AWS cloud infrastructure (EC2, S3, VPC, IAM) supporting multi-tier application environments.',
-        'Implemented security best practices through IAM least-privilege policies, security groups, and network-level access controls.',
-        'Monitored cloud resource health using AWS CloudWatch; configured CPU and memory utilisation alarms.',
-        'Gained hands-on exposure to Azure — VNets, NSGs, VM deployments, and Load Balancers alongside AWS workflows.',
-      ];
-      expBullets.forEach(b=>{
-        setFont(8.5,'normal','#2d3748');
-        doc.setFillColor(0,229,200);doc.circle(M+1.5,y-1,0.8,'F');
-        const lines=doc.splitTextToSize(b,cw-6);
-        doc.text(lines,M+5,y);
-        y+=lines.length*4.5+2;
-      });
-      y+=2;
-
-      // ── PROJECTS
-      section('Projects');
-      const projects=[
-        {
-          name:'Automated Azure Infrastructure with Terraform & Azure DevOps CI/CD',
-          tech:'Terraform · Azure DevOps · AKS · Kubernetes · Helm · Azure Blob Storage',
-          bullets:[
-            'Designed end-to-end Azure infrastructure (VNet, Subnets, NSGs, AKS, Load Balancer) using reusable Terraform modules with remote state in Azure Blob Storage.',
-            'Built Azure DevOps CI/CD pipelines to automate Terraform plan/apply — enabling consistent deployments across dev and production.',
-            'Deployed containerized microservices on AKS with Helm charts; implemented zero-downtime rolling update strategies.',
-          ]
-        },
-        {
-          name:'Production Management System (PMS) — Azure DevOps',
-          tech:'Azure DevOps · Azure Pipelines · Git · .NET · ASP.NET Core · CI/CD',
-          bullets:[
-            'Implemented CI/CD pipelines using Azure DevOps for a .NET-based Production Management System.',
-            'Automated build, testing, artifact publishing, and deployment processes.',
-            'Managed Git branching, Pull Requests, and approval workflows for secure code releases.',
-          ]
-        },
-        {
-          name:'Static Portfolio Website — Azure Static Website Hosting',
-          tech:'Azure Blob Storage · Static Web Hosting · HTML · CSS · Azure Portal',
-          bullets:[
-            'Hosted a personal portfolio as a static website on Azure Blob Storage.',
-            'Configured storage containers, enabled static website feature, and deployed HTML/CSS assets.',
-          ]
-        },
-      ];
-      projects.forEach(p=>{
-        if(y>250){doc.addPage();y=20;}
-        setFont(9,'bold','#1a202c');doc.text(p.name,M,y);y+=5;
-        setFont(7.5,'normal','#00e5c8');doc.text('Tech: '+p.tech,M,y);y+=5;
-        p.bullets.forEach(b=>{
-          setFont(8.5,'normal','#2d3748');
-          doc.setFillColor(0,229,200);doc.circle(M+1.5,y-1,0.8,'F');
-          const lines=doc.splitTextToSize(b,cw-6);
-          doc.text(lines,M+5,y);
-          y+=lines.length*4.5+1.5;
-        });
-        y+=4;
-      });
-
-      // ── CERTIFICATIONS
-      if(y>240){doc.addPage();y=20;}
-      section('Certifications');
-      const certs=[
-        ['AWS Cloud Practitioner Essentials','Amazon Web Services','Completed'],
-        ['Cloud Computing Certification','SmartED Innovations','Completed'],
-        ['Multi Cloud DevSecOps','V Cube Software Solutions','In Progress'],
-      ];
-      certs.forEach(([name,issuer,status])=>{
-        setFont(9,'bold','#1a202c');doc.text(name,M,y);
-        setFont(8,'normal','#5a7499');doc.text(issuer,M,y+4.5);
-        const sc=status==='Completed'?'#0f6e56':'#854f0b';
-        const [sr,sg,sb]=hex(sc);
-        doc.setTextColor(sr,sg,sb);doc.setFontSize(7.5);doc.setFont('helvetica','bold');
-        doc.text('['+status+']',W-M,y,{align:'right'});
-        y+=11;
-      });
-      y+=2;
-
-      // ── EDUCATION
-      if(y>250){doc.addPage();y=20;}
-      section('Education');
-      setFont(10,'bold','#1a202c');doc.text('B.Tech – Civil Engineering',M,y);
-      setFont(9,'normal','#00e5c8');doc.text('SV College of Engineering, Tirupati',M,y+5);
-      setFont(8,'normal','#5a7499');doc.text('Graduated: 2026  |  CGPA: 82.6%',W-M,y,{align:'right'});
-      y+=12;
-      setFont(8.5,'normal','#2d3748');
-      const eduNote=doc.splitTextToSize('Self-transitioned into DevOps/Cloud Engineering through dedicated upskilling, certifications, and hands-on project work.',cw);
-      doc.text(eduNote,M,y);
-
-      // ── FOOTER
-      const pages=doc.internal.getNumberOfPages();
-      for(let i=1;i<=pages;i++){
-        doc.setPage(i);
-        doc.setFillColor(4,7,15);doc.rect(0,285,W,12,'F');
-        doc.setFillColor(0,229,200);doc.rect(0,285,W,0.5,'F');
-        setFont(7,'normal','#5a7499');
-        doc.text('Dasari Ram Prasad — DevOps Engineer',M,291);
-        doc.text('Page '+i+' of '+pages,W-M,291,{align:'right'});
-      }
-
-      doc.save('Ram_Prasad_Dasari_Resume.pdf');
-      showToast('Resume downloaded successfully!');
-    }catch(err){
-      showToast('Download failed. Try again.');
-      console.error(err);
-    }
-    btn.innerHTML=orig;
-    btn.disabled=false;
-  },100);
-}
-</script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="script.js"></script>
 </body>
 </html>
