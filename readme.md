@@ -1,260 +1,293 @@
-# 🚀 Deploy a Static Portfolio Website Using Azure Storage
+<div align="center">
+☁️ Static Portfolio Website on Azure Storage
+Deploy a fully responsive personal portfolio using Microsoft Azure Blob Storage Static Website Hosting
+<br/>
 
-A cloud-based portfolio website hosted using **Microsoft Azure Storage Account Static Website Hosting**. This project demonstrates how to deploy a fully responsive static website built with HTML, CSS, and JavaScript using Azure Blob Storage with zero server management.
+Azure
+Storage
+HTML5
+CSS3
+JavaScript
+Status
+<br/>
 
-## 📌 Project Overview
+Zero servers · Low cost · HTTPS endpoint · Production-ready portfolio
+<br/>
 
-This project showcases the deployment of a personal portfolio website using Azure's Static Website Hosting feature. The website is hosted directly from Azure Blob Storage and is publicly accessible through an Azure-generated endpoint.
+🌐 Live Demo ·
+📌 Overview ·
+🏗️ Architecture ·
+🚀 Deploy ·
+📂 Structure ·
+👨‍💻 Author
+</div>
+🌐 Live Demo
+<div align="center">
+👉 https://myawesomeportfolio2025.z21.web.core.windows.net/
+Item	Value
+Platform	Azure Storage Static Website
+Container	$web
+Stack	HTML5 · CSS3 · Vanilla JavaScript
+Cost model	Storage + bandwidth only
+</div>
+📌 Project Overview
 
-### Objectives
+This project demonstrates cloud deployment of a static portfolio website using Microsoft Azure Storage Account Static Website Hosting.
 
-* Host a static website without managing servers
-* Learn Azure Storage Account and Blob Storage services
-* Configure Azure Static Website Hosting
-* Deploy a portfolio website on Microsoft Azure
-* Gain practical cloud deployment experience
+The site is served directly from Azure Blob Storage — no virtual machines, no App Service, and no backend server to manage.
+🎯 Objectives
 
----
+    Host a static website without server management
+    Configure Azure Storage Account & Blob Storage
+    Enable Static Website Hosting
+    Deploy a personal DevOps portfolio publicly on Azure
+    Build real cloud deployment experience for interviews & portfolio
 
-## 🏗️ Architecture
+🏗️ Architecture
 
-```text
-Portfolio Website Files (HTML, CSS, JS)
-            │
-            ▼
-Azure Storage Account
-            │
-            ▼
-Static Website Hosting Enabled
-            │
-            ▼
-$web Container
-            │
-            ▼
-Public Website Endpoint
-```
+text
 
----
+┌──────────────────────────────────────────────┐
+│     Portfolio Files (HTML · CSS · JS · PDF)  │
+└──────────────────────┬───────────────────────┘
+                       │  upload
+                       ▼
+┌──────────────────────────────────────────────┐
+│           Azure Storage Account              │
+│                                              │
+│   Static Website Hosting  ──►  ENABLED       │
+│   Index document          ──►  index.html    │
+│   Error document          ──►  index.html    │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│              $web  Container                 │
+│   index.html · styles.css · script.js · ...  │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│     Public HTTPS Endpoint (Azure-managed)    │
+│  https://<account>.zXX.web.core.windows.net  │
+└──────────────────────────────────────────────┘
 
-## 🛠️ Technologies Used
+🛠️ Tech Stack
+Layer	Technology	Role
+Markup	HTML5	Structure & content
+Style	CSS3	Responsive UI, glassmorphism, dark/light theme
+Logic	JavaScript	Theme, typing effect, counters, scroll animations
+Cloud	Azure Storage Account	Resource container
+Hosting	Azure Blob Static Website	Public static hosting
+Assets	$web container	Serves site files
+✨ Website Features
+<table> <tr> <td width="50%">
+🏠 Hero
 
-| Technology                   | Purpose                     |
-| ---------------------------- | --------------------------- |
-| HTML5                        | Website Structure           |
-| CSS3                         | Styling & Responsive Design |
-| JavaScript                   | Interactive Features        |
-| Azure Storage Account        | Cloud Storage               |
-| Azure Blob Storage           | Static Content Hosting      |
-| Azure Static Website Hosting | Website Deployment          |
+    Professional intro
+    DevOps-focused branding
+    Live terminal simulation
+    Typing role animation
+    Cloud impact stats
 
----
+💻 Skills
 
-## 🌐 Live Website
+    Azure & AWS
+    Kubernetes (AKS / EKS)
+    Terraform & ARM
+    Docker & Helm
+    CI/CD pipelines
+    Security & Linux
 
-**URL:**
-https://myawesomeportfolio2025.z21.web.core.windows.net/
+</td> <td width="50%">
+💼 Projects (2026)
 
----
+    AWS EKS Agritech DevOps
+    Azure 2-tier marketplace
+    Azure DevOps CI/CD (PMS)
+    ARM automated server deploy
 
-## 📂 Website Features
+📞 Contact
 
-### 🏠 Hero Section
+    Email · Phone
+    LinkedIn · GitHub
+    Resume PDF download
+    Availability status
+    Dark / light theme
 
-* Professional introduction
-* DevOps Engineer profile
-* Cloud and DevOps statistics
-* Terminal-style live output simulation
+</td> </tr> </table>
+Portfolio highlights
+Metric	Value
+Cloud projects	4+
+Faster releases	80%
+CGPA	8.5 / 10
+GitHub repositories	6
+📁 Project Structure
 
-### 💻 Technical Skills
+text
 
-* Cloud Platforms (Azure, AWS)
-* Infrastructure as Code
-* Containers & Kubernetes
-* CI/CD Tools
-* Security Practices
-* Monitoring & Logging
-* Version Control
+portfolio/
+│
+├── index.html                       # Main portfolio page
+├── styles.css                       # Premium responsive design system
+├── script.js                        # Theme · typing · counters · reveal
+│
+├── Dasari_Ram_Prasad_Resume.pdf     # Downloadable resume
+├── Dasari_Ram_Prasad_Resume.html     # Printable HTML resume (optional)
+├── generate_resume_pdf.py           # PDF generator helper (optional)
+│
+└── README.md                        # Project documentation (this file)
 
-### 💼 Experience
+    Keep all site files at the root of $web (do not nest index.html inside another folder).
 
-* Cloud Computing Internship
-* AWS Infrastructure Management
-* Security & Monitoring
-* Azure Exposure
+🚀 Deployment Guide
+Step 1 — Create Storage Account
 
-### 🎓 Certifications & Education
+    Open Azure Portal
+    Create Storage Account
+    Configure:
 
-* AWS Cloud Practitioner Essentials
-* Cloud Computing Certification
-* Multi Cloud DevSecOps (In Progress)
-* B.Tech Engineering
+Setting	Recommended value
+Subscription	Your subscription
+Resource group	New or existing
+Storage account name	Globally unique (lowercase)
+Region	Closest to users
+Performance	Standard
+Redundancy	LRS
 
-### 📞 Contact Section
+    Review + Create → Create
 
-* Email
-* Phone
-* LinkedIn
-* Resume Download
-* Availability Status
+Step 2 — Base configuration
 
----
+text
 
-## ⚙️ Azure Services Used
+Performance:             Standard
+Redundancy:              LRS
+Minimum TLS version:     1.2
+Public network access:   Enabled
 
-| Azure Service          | Purpose                 |
-| ---------------------- | ----------------------- |
-| Azure Storage Account  | Stores website files    |
-| Azure Blob Storage     | Hosts static assets     |
-| Static Website Hosting | Serves website publicly |
-| $web Container         | Stores website content  |
+Step 3 — Enable Static Website Hosting
 
----
+    Storage Account → Data management → Static website
+    Set Static website = Enabled
+    Configure:
 
-## 🚀 Deployment Steps
+text
 
-### Step 1: Create a Storage Account
+Index document name:   index.html
+Error document path:   index.html
 
-1. Sign in to Azure Portal
-2. Create a new Storage Account
-3. Configure:
+    Save
 
-   * Subscription
-   * Resource Group
-   * Storage Account Name
-   * Region
-   * Performance: Standard
-   * Redundancy: LRS
-4. Click **Review + Create**
-5. Deploy the resource
+Azure automatically creates the $web container.
+Step 4 — Upload website files
 
-### Step 2: Configure Storage Account
+Upload into $web:
 
-Recommended settings:
+text
 
-```text
-Performance: Standard
-Redundancy: LRS
-TLS Version: 1.2
-Public Network Access: Enabled
-Blob Anonymous Access: Disabled
-```
-
-### Step 3: Enable Static Website Hosting
-
-1. Open Storage Account
-2. Navigate to:
-
-```text
-Data Management → Static Website
-```
-
-3. Enable Static Website
-4. Set:
-
-```text
-Index Document: index.html
-Error Document: error.html
-```
-
-5. Save changes
-
-Azure automatically creates a `$web` container.
-
-### Step 4: Upload Website Files
-
-Upload the following files to the `$web` container:
-
-```text
 index.html
-css/
-js/
-images/
-```
+styles.css
+script.js
+Dasari_Ram_Prasad_Resume.pdf
 
-### Step 5: Access the Website
+Portal path: Storage Account → Containers → $web → Upload
 
-Open the generated endpoint:
+Azure CLI (optional):
 
-```text
+Bash
+
+az storage blob upload-batch \
+  --account-name <STORAGE_ACCOUNT_NAME> \
+  --auth-mode login \
+  --destination '$web' \
+  --source . \
+  --pattern "*.html" \
+  --overwrite
+
+az storage blob upload-batch \
+  --account-name <STORAGE_ACCOUNT_NAME> \
+  --auth-mode login \
+  --destination '$web' \
+  --source . \
+  --pattern "*.{css,js,pdf}" \
+  --overwrite
+
+Step 5 — Open live site
+
+Copy Primary endpoint from Static website settings:
+
+text
+
 https://myawesomeportfolio2025.z21.web.core.windows.net/
-```
 
----
+💻 Local Development
 
-## 📁 Project Structure
+Bash
 
-```text
-portfolio-website/
-│
-├── index.html
-├── css/
-│   └── style.css
-│
-├── js/
-│   └── script.js
-│
-├── images/
-│   └── assets
-│
-└── README.md
-```
+# Clone / open project folder
+cd portfolio
 
----
+# Start a simple local server
+python3 -m http.server 8080
 
-## ✅ Benefits of Azure Static Website Hosting
+Visit: http://localhost:8080
+File	Edit for
+index.html	Content, projects, contact
+styles.css	Colors, layout, theme tokens
+script.js	Typing phrases, interactions
+✅ Why Azure Static Website Hosting?
+Benefit	Description
+💰 Low cost	Pay for storage + egress only
+📈 Scalable	Blob storage scales automatically
+🔒 HTTPS	Secure endpoint by default
+⚙️ No servers	No OS, patching, or runtime
+⚡ Fast deploy	Upload files → site is live
+🌍 High availability	Azure-managed durability
+📚 Learning Outcomes
 
-* Low-cost hosting
-* High availability
-* Automatic scalability
-* HTTPS-enabled endpoints
-* No server management
-* Fast and simple deployment
+    Azure Storage Account setup & configuration
+    Blob Storage & $web container management
+    Static Website Hosting enablement
+    Public endpoint verification
+    Cloud hosting fundamentals for static sites
+    Portfolio-ready cloud deployment experience
 
----
+🔮 Future Enhancements
 
-## 📚 Learning Outcomes
+    Custom domain binding
+    Azure CDN for global edge caching
+    GitHub Actions CI/CD → auto-deploy to $web
+    Azure Front Door
+    Monitoring / analytics
+    Terraform or Bicep for infrastructure as code
 
-Through this project, I learned:
+👨‍💻 Author
+<div align="center">
+Dasari Ram Prasad
 
-* Azure Storage Account configuration
-* Azure Blob Storage management
-* Static Website Hosting setup
-* Cloud-based website deployment
-* Storage container management
-* Public endpoint verification
-* Cloud hosting fundamentals
+Aspiring DevOps & Cloud Engineer · Hyderabad, India
+<br/>
 
----
+Email
+Phone
+LinkedIn
+GitHub
+<br/>
 
-## 🔮 Future Enhancements
+Skills: Azure · AWS · Kubernetes · Terraform · CI/CD · Docker · Linux
+</div>
+📄 License
 
-* Custom domain integration
-* Azure CDN implementation
-* GitHub Actions CI/CD pipeline
-* Azure Front Door setup
-* Application Insights monitoring
-* Terraform Infrastructure as Code deployment
+This repository is shared for educational and portfolio purposes.
+<div align="center">
+⭐ If this project helped you, consider starring the repo
+<br/>
 
----
+Built for the cloud · Hosted on Azure Storage
 
-## 👨‍💻 Author
+HTML · CSS · JavaScript · Azure Blob Static Website
+<br/>
 
-**Dasari Ram Prasad**
-
-Aspiring DevOps & Cloud Engineer
-
-### Skills
-
-* Microsoft Azure
-* Amazon Web Services (AWS)
-* Kubernetes
-* Terraform
-* CI/CD
-* Docker
-* Linux
-
----
-
-## 📄 License
-
-This project is intended for educational and portfolio purposes.
+⬆ Back to top
+</div>
