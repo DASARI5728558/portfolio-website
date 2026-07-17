@@ -151,10 +151,14 @@ button { font: inherit; background: none; border: none; cursor: pointer; }
 /* ── About ── */
 .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: start; }
 .about-text { color: var(--text-dim); font-size: 1.02rem; max-width: 52ch; }
-.stats-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
 .stat-card {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 22px 26px; text-align: center; flex: 1; min-width: 130px;
+  padding: 22px 26px; text-align: center;
   box-shadow: 0 10px 30px -20px rgba(31,36,48,.15);
 }
 .stat-number { font-family: var(--font-display); font-weight: 800; font-size: 1.9rem; color: var(--purple); display: block; }
@@ -250,6 +254,7 @@ button { font: inherit; background: none; border: none; cursor: pointer; }
 @media (max-width: 640px) {
   .navbar, .hero, .section { padding-left: 20px; padding-right: 20px; }
   .form-row { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
