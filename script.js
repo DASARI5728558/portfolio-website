@@ -140,12 +140,13 @@
         if (!entry.isIntersecting) return;
         const el = entry.target;
         const target = parseInt(el.dataset.count, 10) || 0;
+        const suffix = el.dataset.suffix || '';
         const duration = 1400;
         const start = performance.now();
         function step(now) {
           const progress = Math.min(1, (now - start) / duration);
           const eased = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(eased * target);
+          el.textContent = Math.round(eased * target) + suffix;
           if (progress < 1) requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
