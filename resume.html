@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dasari Ram Prasad - DevOps Engineer Resume</title>
+<style>
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+    color: #2d2d2d;
+    line-height: 1.45;
+    font-size: 10.2px;
+    background: #fff;
+    max-width: 830px;
+    margin: 0 auto;
+    padding: 28px 34px;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    padding-bottom: 14px;
+    border-bottom: 2.5px solid #1a5276;
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a5276;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .header .subtitle {
+    font-size: 12px;
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+  .contact-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 9.8px;
+    color: #444;
+  }
+  .contact-row a {
+    color: #1a5276;
+    text-decoration: none;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .contact-item svg {
+    width: 12px;
+    height: 12px;
+    fill: #1a5276;
+    flex-shrink: 0;
+  }
+
+  /* ── Section Titles ── */
+  .section {
+    margin-bottom: 13px;
+  }
+  .section-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #1a5276;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1.5px solid #d5dde3;
+    padding-bottom: 3px;
+    margin-bottom: 8px;
+  }
+
+  /* ── Summary ── */
+  .summary p {
+    font-size: 10.2px;
+    color: #3a3a3a;
+    text-align: justify;
+    line-height: 1.5;
+  }
+  .summary strong {
+    color: #1a5276;
+  }
+
+  /* ── Skills Grid ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 28px;
+  }
+  .skill-row {
+    display: flex;
+    gap: 6px;
+    font-size: 10px;
+    line-height: 1.45;
+  }
+  .skill-label {
+    font-weight: 700;
+    color: #1a5276;
+    white-space: nowrap;
+    min-width: 115px;
+    flex-shrink: 0;
+  }
+  .skill-value {
+    color: #3a3a3a;
+  }
+
+  /* ── Experience / Projects ── */
+  .entry {
+    margin-bottom: 11px;
+  }
+  .entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-bottom: 2px;
+  }
+  .entry-title {
+    font-weight: 700;
+    font-size: 11px;
+    color: #222;
+  }
+  .entry-meta {
+    font-size: 9.5px;
+    color: #666;
+    font-style: italic;
+  }
+  .entry-org {
+    font-size: 10px;
+    color: #555;
+    margin-bottom: 3px;
+  }
+  .entry-tech {
+    font-size: 9.2px;
+    color: #1a5276;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .entry ul {
+    padding-left: 16px;
+    margin: 0;
+  }
+  .entry li {
+    font-size: 10px;
+    color: #3a3a3a;
+    margin-bottom: 2.5px;
+    line-height: 1.45;
+    text-align: justify;
+  }
+  .entry li strong {
+    color: #1a5276;
+    font-weight: 700;
+  }
+
+  /* ── Education ── */
+  .edu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  /* ── Certifications ── */
+  .cert-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 0;
+  }
+  .cert-item {
+    font-size: 10px;
+    color: #3a3a3a;
+    width: 100%;
+    margin-bottom: 2px;
+    line-height: 1.45;
+  }
+  .cert-item strong {
+    color: #222;
+  }
+
+  /* ── Two Column Bottom ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 30px;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body {
+      padding: 20px 28px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HEADER ════════════════ -->
+<div class="header">
+  <h1>Dasari Ram Prasad</h1>
+  <div class="subtitle">Aspiring DevOps Engineer</div>
+  <div class="contact-row">
+    <span class="contact-item">
+      <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.72 11.72 0 003.58.57 1 1 0 011 1v3.5a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11.72 11.72 0 00.57 3.58 1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+      +91 6281686788
+    </span>
+    <span class="contact-item">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      <a href="mailto:dasariramprasad5@gmail.com">dasariramprasad5@gmail.com</a>
+    </span>
+    <span class="contact-item">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>
+      Hyderabad, India
+    </span>
+    <span class="contact-item">
+      <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+      <a href="https://www.linkedin.com/in/ram-prasad-dasari-8b1b52217">LinkedIn</a>
+    </span>
+    <span class="contact-item">
+      <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 002 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5A10.02 10.02 0 0022 12 10 10 0 0012 2z"/></svg>
+      <a href="https://github.com/DASARI5728558">GitHub</a>
+    </span>
+  </div>
+</div>
+
+<!-- ════════════════ PROFESSIONAL SUMMARY ════════════════ -->
+<div class="section summary">
+  <div class="section-title">Professional Summary</div>
+  <p>
+    DevOps-focused engineering student (<strong>8.5 CGPA</strong>) with hands-on experience building and deploying <strong>production-grade, multi-tier applications</strong> on <strong>Microsoft Azure</strong> and <strong>AWS</strong>. Designed end-to-end CI/CD pipelines that reduced manual release effort by <strong>80%</strong>, provisioned cloud infrastructure using Terraform and ARM templates, and orchestrated containerized workloads on <strong>Kubernetes (AKS &amp; EKS)</strong> with Helm. Transitioning from Civil Engineering to DevOps, bringing strong analytical thinking and project management skills. Seeking a DevOps Engineer role to apply cloud automation and container orchestration expertise at scale.
+  </p>
+</div>
+
+<!-- ════════════════ TECHNICAL SKILLS ════════════════ -->
+<div class="section">
+  <div class="section-title">Technical Skills</div>
+  <div class="skills-grid">
+    <div class="skill-row">
+      <span class="skill-label">Cloud Platforms:</span>
+      <span class="skill-value">Azure (VM, VNet, NSG, AKS, ACR, ARM, MySQL Flexible), AWS (EC2, S3, IAM, VPC, EKS, ECR, RDS, CloudWatch)</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-label">Containerization:</span>
+      <span class="skill-value">Docker, Kubernetes (AKS/EKS), Helm Charts</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-label">IaC &amp; Config:</span>
+      <span class="skill-value">Terraform, Azure ARM Templates</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-label">CI/CD:</span>
+      <span class="skill-value">Azure DevOps Pipelines, GitHub Actions</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-label">Scripting &amp; OS:</span>
+      <span class="skill-value">Bash/Shell Scripting, Linux (Ubuntu, CentOS)</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-label">Security:</span>
+      <span class="skill-value">IAM Policies, NSGs, Least-Privilege Access, Secrets Management</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-label">Version Control:</span>
+      <span class="skill-value">Git, GitHub, Branching Strategies, PR Workflows</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-label">Databases:</span>
+      <span class="skill-value">MySQL, Azure MySQL Flexible Server, AWS RDS</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ PROJECTS ════════════════ -->
+<div class="section">
+  <div class="section-title">Key Projects</div>
+
+  <!-- Project 1 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-title">Agritech Marketplace — 2-Tier AWS DevOps Deployment</span>
+      <span class="entry-meta">2026</span>
+    </div>
+    <div class="entry-tech">Tech Stack: AWS EKS, ECR, Terraform, Docker, Helm, GitHub Actions, RDS, Nginx, Spring Boot, MySQL</div>
+    <ul>
+      <li>Deployed a <strong>2-tier Agritech Marketplace</strong> application on Amazon EKS using Terraform, reducing infrastructure provisioning time by <strong>70%</strong> (from 2+ hours to ~35 minutes).</li>
+      <li>Built a fully automated CI/CD pipeline with <strong>GitHub Actions</strong> that builds Docker images, pushes to ECR, and deploys to EKS — cutting release cycle from <strong>2 weeks to under 2 hours</strong>.</li>
+      <li>Configured Kubernetes networking (<strong>Ingress, Services, ConfigMaps, Secrets</strong>) and implemented IAM least-privilege policies across EKS, ECR, and RDS for enhanced security.</li>
+      <li>Resolved <strong>15+ real-world infrastructure issues</strong> spanning Terraform state management, IAM role misconfigurations, Helm chart failures, and Kubernetes pod crash loops.</li>
+    </ul>
+  </div>
+
+  <!-- Project 2 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-title">Agritech Marketplace — Azure 2-Tier Full-Stack Application</span>
+      <span class="entry-meta">2026</span>
+    </div>
+    <div class="entry-tech">Tech Stack: Azure VM, VNet, NSG, Private DNS Zone, Azure MySQL Flexible Server, Nginx, Spring Boot 3.x, Java 17</div>
+    <ul>
+      <li>Designed and deployed a <strong>secure 2-tier architecture</strong> on Azure with complete network isolation — application tier in a public subnet and database tier in a private subnet behind NSG rules.</li>
+      <li>Built a full-stack <strong>AgriTech Marketplace</strong> with AI-driven crop-input recommendations using Java 17, Spring Boot 3.x, and MySQL, serving optimized fertilizer and pesticide suggestions.</li>
+      <li>Configured <strong>Private DNS Zone</strong> and <strong>NSG rules</strong> to ensure database access is restricted to the application layer only, following cloud security best practices.</li>
+    </ul>
+  </div>
+
+  <!-- Project 3 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-title">Production Management System (PMS) — CI/CD Pipeline with Azure DevOps</span>
+      <span class="entry-meta">2026</span>
+    </div>
+    <div class="entry-tech">Tech Stack: Azure DevOps, Git, .NET Application, CI/CD Pipelines, Release Gates</div>
+    <ul>
+      <li>Designed an end-to-end CI/CD pipeline using <strong>Azure DevOps</strong> with Git branching strategy, Pull Request validation, and approval-based workflows — achieving a <strong>95%+ build success rate</strong>.</li>
+      <li>Configured CI pipelines to automatically build, validate, and publish <strong>.NET application artifacts</strong>, reducing manual build effort by <strong>80%</strong>.</li>
+      <li>Set up CD release pipelines with <strong>manual deployment triggers</strong> and approval gates for controlled, production-grade releases with zero-downtime deployments.</li>
+    </ul>
+  </div>
+
+  <!-- Project 4 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-title">Automated Server Deployment Using Native Cloud Tools</span>
+      <span class="entry-meta">2026</span>
+    </div>
+    <div class="entry-tech">Tech Stack: Azure, ARM Templates, VM, VNet, NSG, Public IP, Nginx, GitHub Integration</div>
+    <ul>
+      <li>Automated cloud infrastructure provisioning on Azure using <strong>ARM templates (IaC)</strong>, deploying VM, VNet, NSG, and Public IP in a single template — eliminating <strong>100% of manual setup steps</strong>.</li>
+      <li>Deployed a <strong>Blinkit-inspired web application</strong> via GitHub integration with automated Nginx setup and hosting on Azure VM, achieving full deployment in under <strong>30 minutes</strong>.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════ EDUCATION ════════════════ -->
+<div class="section">
+  <div class="section-title">Education</div>
+  <div class="entry" style="margin-bottom:0;">
+    <div class="edu-row">
+      <div>
+        <span class="entry-title">B.Tech in Civil Engineering</span>
+        <div class="entry-org">S.V. College of Engineering · Tirupati, India</div>
+      </div>
+      <div style="text-align:right;">
+        <span class="entry-meta">Sep 2023 – Apr 2026</span>
+        <div style="font-size:10.5px; font-weight:700; color:#1a5276; margin-top:2px;">CGPA: 8.5 / 10</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ BOTTOM: CERTIFICATIONS + ACHIEVEMENTS ════════════════ -->
+<div class="two-col">
+  <!-- Certifications -->
+  <div class="section">
+    <div class="section-title">Certifications</div>
+    <div class="cert-item">
+      <strong>AWS Cloud Practitioner Essentials</strong> — Amazon Web Services <span style="color:#888;">(July 2026)</span>
+    </div>
+    <div class="cert-item">
+      <strong>Cloud Computing</strong> — SmartED Innovations <span style="color:#888;">(September 2026)</span>
+    </div>
+  </div>
+
+  <!-- Achievements & Extras -->
+  <div class="section">
+    <div class="section-title">Achievements &amp; Activities</div>
+    <div class="cert-item">
+      ✦ Completed <strong>4+ end-to-end cloud projects</strong> spanning Azure and AWS with production deployments
+    </div>
+    <div class="cert-item">
+      ✦ Built and managed <strong>6+ GitHub repositories</strong> with clean commit history and README documentation
+    </div>
+    <div class="cert-item">
+      ✦ Self-taught DevOps skills through structured learning paths on AWS and Azure platforms
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ LANGUAGES ════════════════ -->
+<div style="margin-top:6px; font-size:10px; color:#555;">
+  <strong style="color:#1a5276;">Languages:</strong> English (Professional) · Telugu (Native)
+</div>
+
+</body>
+</html>
